@@ -34,3 +34,23 @@ pub fn sieve_of_eratosthenes() -> HashSet<usize>{
 
     return primes;
 }
+
+
+#[cfg(test)]
+mod tests {
+    // Note this useful idiom: importing names from outer (for mod tests) scope.
+    use super::*;
+
+
+
+    #[test]
+    fn test_prime() {
+        let h = 23_i8;
+        assert_eq!(sieve_of_eratosthenes().contains(&(13_usize)), true);
+    }
+
+    #[test]
+    fn test_not_prime() {
+        assert_eq!(sieve_of_eratosthenes().contains(&(14_usize)), false);
+    }
+}
