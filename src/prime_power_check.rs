@@ -1,9 +1,11 @@
 pub fn prime_power_check(n:u64) -> bool {
  //returns true if n is prime^exp with exp>1, false otherwise   
 
- 
+unimplemented!();
    
-false
+// true or false 
+   
+
 }
 
 
