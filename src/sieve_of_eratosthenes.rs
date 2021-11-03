@@ -4,6 +4,7 @@ const N_SIEVE: usize = 1000; // size of the seive = max prime + 1
 
 /***
     Find all primes < N_SIEVE using a sieve of Eratosthenes
+    https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 
     return: set with primes
  */
@@ -41,11 +42,8 @@ mod tests {
     // Note this useful idiom: importing names from outer (for mod tests) scope.
     use super::*;
 
-
-
     #[test]
     fn test_prime() {
-        let h = 23_i8;
         assert_eq!(sieve_of_eratosthenes().contains(&(13_usize)), true);
     }
 
