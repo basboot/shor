@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-const N_SIEVE: usize = 1000; // size of the seive = max prime + 1
+const N_SIEVE: usize = 1000; // size of the sieve = max prime + 1
 
 /***
     Find all primes < N_SIEVE using a sieve of Eratosthenes
