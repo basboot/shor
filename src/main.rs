@@ -1,13 +1,15 @@
 mod sieve_of_eratosthenes;
 mod is_even;
+mod pseudo_prime;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
+use pseudo_prime::pseudo_prime;
 
 fn main() {
     println!("Hello, Shor!");
 
-    let candidate: u64 = 21;
+    let candidate: u64 = 88357;
 
     if !is_even(candidate) {
         println!("{} is not even (possible candidate)", candidate);
@@ -21,5 +23,11 @@ fn main() {
         println!("{} is not prime (possible candidate)", candidate);
     } else {
         println!("{} is prime (so not a possible candidate)", candidate);
+    }
+
+    if !pseudo_prime(candidate) {
+        println!("{} is not pseudoprime (possible candidate)", candidate);
+    } else {
+        println!("{} is pseudoprime (so not a possible candidate)", candidate);
     }
 }
