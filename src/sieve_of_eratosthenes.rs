@@ -51,4 +51,14 @@ mod tests {
     fn test_not_prime() {
         assert_eq!(sieve_of_eratosthenes().contains(&(14_usize)), false);
     }
+    
+    #[test]
+    fn test_2_is_prime() {
+        assert_eq!(sieve_of_eratosthenes().contains(&(2_usize)), true);
+    }
+
+    #[test]
+    fn test_1_not_prime() {
+        assert_eq!(sieve_of_eratosthenes().contains(&(1_usize)), false);
+    }
 }
