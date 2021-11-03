@@ -54,4 +54,29 @@ assert_eq!(prime_power_check(12157665459056928801),true);
 fn test_prime_power_check_2_61() {
 assert_eq!(prime_power_check(2305843009213693952),true);
 }
+ //4294967291
+#[test]
+fn test_prime_power_check_4294967291_1() {
+assert_eq!(prime_power_check(4294967291),false);
+}
+//1048573
+#[test]
+fn test_prime_power_check_1048573_1() {
+assert_eq!(prime_power_check(1048573),false);
+}
+//131621703842267136
+#[test]
+fn test_prime_power_check_6_22() {
+assert_eq!(prime_power_check(131621703842267136),false);
+}
+//6221821273427820544
+#[test]
+fn test_prime_power_check_22_14() {
+assert_eq!(prime_power_check(6221821273427820544),false);
+}
+//9042293113509953753
+#[test]
+fn test_prime_power_check_2083337_3() {
+assert_eq!(prime_power_check(9042293113509953753),false);
+}
 }
