@@ -5,7 +5,7 @@
 use crate::is_even::is_even;
 use crate::modular_pow::modular_pow;
 
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 const BASE: u64 = 2; // base to calculate the pseudoprime
 
@@ -23,8 +23,7 @@ pub fn pseudo_prime(n: u64) -> bool{
 
     loop {
 
-        let mut result = BASE;
-        result = modular_pow(BASE, power, modulus);
+        let result = modular_pow(BASE, power, modulus);
 
         println!("{} ^ {} mod {} = {}", BASE, power, modulus, result);
 

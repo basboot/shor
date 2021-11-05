@@ -7,17 +7,6 @@
 // It has been shown that there are no counterexamples for n <2^64 (Wikipedia)
 //
 
-fn main() {
-    println!("{}", jacobi(1027, 541));
-    println!("{}", jacobi(1225, 541));
-    println!("{}", jacobi(1082, 541));
-
-    println!("{}", find_first_d(221));
-    println!("{}", find_first_d(223));
-    println!("{}", find_first_d(229));
-}
-
-
 pub fn jacobi(a: i32, p: i32) -> i32 {
 // transpilation of the Lua example from Wikipedia:
 // https://en.wikipedia.org/wiki/Jacobi_symbol

@@ -10,6 +10,9 @@ use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
 
+use jacobi_symbol_extended::{jacobi, find_first_d};
+
+
 fn main() {
     println!("Hello, Shor!");
 
@@ -34,4 +37,13 @@ fn main() {
     } else {
         println!("{} is pseudoprime (so not a possible candidate)", candidate);
     }
+
+    // Jacobi
+    println!("{}", jacobi(1027, 541));
+    println!("{}", jacobi(1225, 541));
+    println!("{}", jacobi(1082, 541));
+
+    println!("{}", find_first_d(221));
+    println!("{}", find_first_d(223));
+    println!("{}", find_first_d(229));
 }

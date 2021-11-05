@@ -15,7 +15,7 @@ pub fn modular_pow(base: u64, exponent: u64, modulus: u64) -> u64 {
     // TODO: Add assert "(modulus - 1) * (modulus - 1) cannot overflow base"
 
     while exponent > 0 {
-        if (exponent % 2 == 1) {
+        if exponent % 2 == 1 {
             result = (result * base) % modulus;
         }
         exponent = exponent >> 1;
