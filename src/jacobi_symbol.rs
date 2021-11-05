@@ -7,15 +7,6 @@
 // It has been shown that there are no counterexamples for n <2^64 (Wikipedia)
 //
 
-fn main(){
-
-println!("{}",jacobi(1027,541)); //-1
-println!("{}",jacobi(1225,541)); // 1
-println!("{}",jacobi(1082,541)); // 0
-
-}
-
-
 
 pub fn jacobi(a:i32, p:i32) -> i32 {
 // transpilation of the Lua example from Wikipedia:
@@ -48,4 +39,43 @@ n = n % k ;
 }
 
 if k==1 {t} else {0}
+}
+
+
+#[cfg(test)]
+mod tests {
+// Note this useful idiom: importing names from outer (for mod tests) scope.
+use super::*;
+
+
+//1
+#[test]
+fn test_jacobi_symbol_1783_7523() {
+assert_eq!(jacobi_symbol(1783,7523),1);
+}
+//1
+#[test]
+fn test_jacobi_symbol_756479_1298351() {
+assert_eq!(jacobi_symbol(756479,1298351),1);
+}
+//-1
+#[test]
+fn test_jacobi_symbol_485277_12408107() {
+assert_eq!(jacobi_symbol(485277,12408107),-1);
+}
+//0
+#[test]
+fn test_jacobi_symbol_24690_12345() {
+assert_eq!(jacobi_symbol(24690,12345),0);
+}
+//0
+#[test]
+fn test_jacobi_symbol_7_21() {
+assert_eq!(jacobi_symbol(7,21),0);
+}
+//-1
+#[test]
+fn test_jacobi_symbol_3_41() {
+assert_eq!(jacobi_symbol(3,41),-1);
+}
 }
