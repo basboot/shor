@@ -48,7 +48,7 @@ pub fn pseudo_prime(n: u64) -> bool{
 
     // we did not find a counterexample, so this is a pseudoprime
     println!("time: {} ms", now.elapsed().as_millis());
-    return true
+    true
 }
 
 #[cfg(test)]
