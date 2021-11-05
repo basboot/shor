@@ -2,6 +2,9 @@ mod sieve_of_eratosthenes;
 mod is_even;
 mod pseudo_prime;
 mod modular_pow;
+mod gcd;
+mod jacobi_symbol_extended;
+mod jacobi_symbol;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
