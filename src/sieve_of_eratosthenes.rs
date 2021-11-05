@@ -13,8 +13,6 @@ pub fn sieve_of_eratosthenes() -> HashSet<usize>{
     let mut sieve: [bool; N_SIEVE] = [true; N_SIEVE];
     // Create empty set to return primes
     let mut primes = HashSet::new();
-    // Add trivial prime to set
-    primes.insert(1);
 
     // Use sieve to add non trivial primes to set
     for i in 2..N_SIEVE {
