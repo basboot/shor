@@ -3,10 +3,14 @@
     https://en.wikipedia.org/wiki/Strong_pseudoprime
  */
 use crate::is_even::is_even;
+use crate::modular_pow::modular_pow;
+
+use std::time::{Duration, Instant};
 
 const BASE: u64 = 2; // base to calculate the pseudoprime
 
 pub fn pseudo_prime(n: u64) -> bool{
+    let now = Instant::now();
     assert!(n > 0, "n must be positive") ;
 
     // the algorithm only works if n > 2
@@ -18,18 +22,20 @@ pub fn pseudo_prime(n: u64) -> bool{
     let mut power = n - 1;
 
     loop {
+
         let mut result = BASE;
-        for _i in 2..power + 1 {
-            result = (result * BASE) % modulus;
-        }
+        result = modular_pow(BASE, power, modulus);
+
         println!("{} ^ {} mod {} = {}", BASE, power, modulus, result);
 
         // if the result is -1, this is a strong pseudoprime
         if result == modulus - 1 {
+            println!("time: {} ms", now.elapsed().as_millis());
             return true;
         }
         // if the result is not 1 (or -1), this is not a pseudoprime
         if result != 1 {
+            println!("time: {} ms", now.elapsed().as_millis());
             return false;
         }
         // continue if the exponent is still even
@@ -42,6 +48,7 @@ pub fn pseudo_prime(n: u64) -> bool{
     }
 
     // we did not find a counterexample, so this is a pseudoprime
+    println!("time: {} ms", now.elapsed().as_millis());
     return true
 }
 
