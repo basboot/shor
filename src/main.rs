@@ -5,6 +5,7 @@ mod modular_pow;
 mod gcd;
 mod jacobi_symbol_extended;
 mod jacobi_symbol;
+mod quantum_register;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
