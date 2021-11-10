@@ -8,7 +8,7 @@
 //
 
 
-pub fn jacobi_symbol(a: i32, p: i32) -> i32 {
+pub fn jacobi_symbol(a: i64, p: i64) -> i64 {
 // transpilation of the Lua example from Wikipedia:
 // https://en.wikipedia.org/wiki/Jacobi_symbol
 

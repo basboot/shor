@@ -3,7 +3,7 @@ mod is_even;
 mod pseudo_prime;
 mod modular_pow;
 mod gcd;
-mod jacobi_symbol_extended;
+mod find_first_d;
 mod jacobi_symbol;
 mod quantum_register;
 
@@ -11,7 +11,8 @@ use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
 
-use jacobi_symbol_extended::{jacobi, find_first_d};
+use find_first_d::find_first_d;
+use jacobi_symbol::jacobi_symbol;
 
 
 fn main() {
@@ -40,9 +41,9 @@ fn main() {
     }
 
     // Jacobi
-    println!("{}", jacobi(1027, 541));
-    println!("{}", jacobi(1225, 541));
-    println!("{}", jacobi(1082, 541));
+    println!("{}", jacobi_symbol(1027, 541));
+    println!("{}", jacobi_symbol(1225, 541));
+    println!("{}", jacobi_symbol(1082, 541));
 
     println!("{}", find_first_d(221));
     println!("{}", find_first_d(223));
