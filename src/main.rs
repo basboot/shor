@@ -14,7 +14,7 @@ use pseudo_prime::pseudo_prime;
 use find_first_d::find_first_d;
 use jacobi_symbol::jacobi_symbol;
 
-use quantum_register::{create_quantum_register};
+use quantum_register::{create_quantum_register, print_quantum_register};
 
 
 fn main() {
@@ -54,5 +54,7 @@ fn main() {
     println!();
     println!();
 
+    println!("Create quantum register (step 4) in zero state");
     let mut quantum_register = create_quantum_register();
+    print_quantum_register(&quantum_register);
 }
