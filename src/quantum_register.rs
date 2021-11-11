@@ -16,6 +16,13 @@ pub fn create_quantum_register() -> Array2::<f64> {
     register
 }
 
+pub fn init_quantum_register(register: &mut Array2::<f64>) {
+    let n_state_vectors_reg1 = 2_u32.pow(N_BITS_REG1 as u32);
+    for i in 0..n_state_vectors_reg1 {
+        register[[(i as usize) << N_BITS_REG2, 0]] = 1./(n_state_vectors_reg1 as f64).sqrt();
+    }
+}
+
 pub fn print_quantum_register(register: &Array2::<f64>) {
     println!("reg1 - reg2 (p)");
     for i in 0..register.len() {
