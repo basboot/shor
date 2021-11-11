@@ -14,7 +14,8 @@ use pseudo_prime::pseudo_prime;
 use find_first_d::find_first_d;
 use jacobi_symbol::jacobi_symbol;
 
-use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register};
+use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
+                       transform_quantum_register};
 
 
 fn main() {
@@ -62,5 +63,9 @@ fn main() {
 
     println!("Init quantum register for Shor (step 5)");
     init_quantum_register(&mut quantum_register);
+    print_quantum_register(&quantum_register);
+
+    println!("(step 6)");
+    transform_quantum_register(&mut quantum_register, 3, 2);
     print_quantum_register(&quantum_register);
 }
