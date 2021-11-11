@@ -14,6 +14,8 @@ use pseudo_prime::pseudo_prime;
 use find_first_d::find_first_d;
 use jacobi_symbol::jacobi_symbol;
 
+use quantum_register::{create_quantum_register};
+
 
 fn main() {
     println!("Hello, Shor!");
@@ -48,4 +50,9 @@ fn main() {
     println!("{}", find_first_d(221));
     println!("{}", find_first_d(223));
     println!("{}", find_first_d(229));
+
+    println!();
+    println!();
+
+    let mut quantum_register = create_quantum_register();
 }
