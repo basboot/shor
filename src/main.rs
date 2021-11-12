@@ -15,7 +15,7 @@ use find_first_d::find_first_d;
 use jacobi_symbol::jacobi_symbol;
 
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
-                       transform_quantum_register, measure_quantum_register};
+                       transform_quantum_register, measure_quantum_register1, measure_quantum_register2};
 
 
 fn main() {
@@ -65,10 +65,15 @@ fn main() {
     init_quantum_register(&mut quantum_register);
     print_quantum_register(&quantum_register);
 
-    println!("(step 6)");
+    println!();
+
+    println!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
     transform_quantum_register(&mut quantum_register, 3, 2);
     print_quantum_register(&quantum_register);
 
-    measure_quantum_register(&mut quantum_register, 3, 5);
+    println!();
+
+    println!("Measure the second register (step 7)");
+    measure_quantum_register2(&mut quantum_register);
     print_quantum_register(&quantum_register);
 }

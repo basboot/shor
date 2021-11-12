@@ -1,6 +1,6 @@
 
-const N_BITS_REG1:usize = 3; // size of register 1, must have enough qubits to represent q - 1
-const N_BITS_REG2:usize = 3; // size of register 2, must have enough qubits to represent n - 1
+const N_BITS_REG1:usize = 4; // size of register 1, must have enough qubits to represent q - 1
+const N_BITS_REG2:usize = 4; // size of register 2, must have enough qubits to represent n - 1
 const EPSILON: f64 = 0_f64;
 
 use ndarray::Array2;
@@ -106,4 +106,15 @@ pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:
     for i in 0..register.len() {
         register[[i, 0]] = register[[i, 0]] / remaining_chance.sqrt();
     }
+}
+
+// TODO: waarom hoeft register hier niet al &mut doorgegeven te worden?
+// helper function to measure register 1
+pub fn measure_quantum_register1(register: &mut Array2::<Complex<f64>>) {
+    measure_quantum_register(register, 0, N_BITS_REG1 - 1);
+}
+
+// helper function measure register 2
+pub fn measure_quantum_register2(register: &mut Array2::<Complex<f64>>) {
+    measure_quantum_register(register, N_BITS_REG1, N_BITS_REG1 + N_BITS_REG2 - 1);
 }
