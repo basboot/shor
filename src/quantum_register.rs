@@ -7,6 +7,8 @@ use ndarray::Array2;
 use num::complex::Complex;
 use crate::modular_pow::modular_pow;
 
+use rand::Rng;
+
 // step 4
 // create statusvector for a register that represents N_BITS_REG1+N_BITS_REG1 qbits
 pub fn create_quantum_register() -> Array2::<Complex<f64>> {
@@ -28,7 +30,7 @@ pub fn init_quantum_register(register: &mut Array2::<Complex<f64>>) {
 }
 
 // step 6
-// simmulate the quantum transformation x^a mod n to for each number stored in register 1
+// simulate the quantum transformation x^a mod n to for each number stored in register 1
 // and store the result in register 2.
 pub fn transform_quantum_register(register: &mut Array2::<Complex<f64>>, a:u64, n:u64) {
     let n_state_vectors_reg1 = 2_u32.pow(N_BITS_REG1 as u32);
@@ -54,5 +56,54 @@ pub fn print_quantum_register(register: &Array2::<Complex<f64>>) {
             // split base vector to show reg1 and reg2 separately
             println!("{} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
         }
+    }
+}
+
+
+// meassure (a part of) the quantum register
+// from_bit: first bit to be measured (0 based, count from left, MSB)
+// to_bit: last bit to be measured (same as first bit if you want to measure only one bit, LSB)
+pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:usize, to_bit:usize) {
+    let lsb = N_BITS_REG1 + N_BITS_REG2 - to_bit - 1;
+
+    // draw random number [0,1) to select a base vector from the register
+    let mut rng = rand::thread_rng();
+    let random_chance = rng.gen::<f64>();
+
+    // find randomly selected base vector, using chances stored in the quantum register
+    let mut total_chance = 0.0;
+    let mut selected_vector:usize = 0; // first vector will be selected if rounding errors prevent a selection
+    for i in 0..register.len() {
+        let chance = register[[i, 0]].norm() * register[[i, 0]].norm(); // chance = square of magnitude
+        total_chance += chance;
+
+        // randomly selected vector found => break
+        if total_chance >= random_chance {
+            selected_vector = i;
+            println!("Selected vector for measurement {} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
+            break;
+        }
+    }
+
+    // create mask with ones msb-lsb, and zeros otherwise 111000
+    let measured_bits_mask = (2_u32.pow((to_bit - from_bit + 1) as u32) - 1) << lsb;
+    // mask selected vector 101101 => 101000
+    let masked_selected_vector = selected_vector & (measured_bits_mask as usize);
+    // compare masked selected vector to all (masked) other vectors
+    // only keep matching vectors, reset others to zero
+    let mut remaining_chance = 0.0; // sum up remaining chances to normalize quantum vector
+    for i in 0..register.len() {
+        if i & (measured_bits_mask as usize) != masked_selected_vector {
+            // no match, so set to zero
+            register[[i, 0]] = num::complex::Complex::new(0.0, 0.0);
+        } else {
+            // vector is a match, keep it and sum up chance total for re-normalization
+            remaining_chance += register[[i, 0]].norm() * register[[i, 0]].norm();
+        }
+    }
+
+    // normalize the quantum register (chances must sum up to 1)
+    for i in 0..register.len() {
+        register[[i, 0]] = register[[i, 0]] / remaining_chance.sqrt();
     }
 }

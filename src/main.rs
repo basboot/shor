@@ -15,7 +15,7 @@ use find_first_d::find_first_d;
 use jacobi_symbol::jacobi_symbol;
 
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
-                       transform_quantum_register};
+                       transform_quantum_register, measure_quantum_register};
 
 
 fn main() {
@@ -67,5 +67,8 @@ fn main() {
 
     println!("(step 6)");
     transform_quantum_register(&mut quantum_register, 3, 2);
+    print_quantum_register(&quantum_register);
+
+    measure_quantum_register(&mut quantum_register, 3, 5);
     print_quantum_register(&quantum_register);
 }
