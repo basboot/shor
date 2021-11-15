@@ -63,12 +63,13 @@ fn main() {
 
     println!("Init quantum register for Shor (step 5)");
     init_quantum_register(&mut quantum_register);
+
     print_quantum_register(&quantum_register);
 
     println!();
 
     println!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
-    transform_quantum_register(&mut quantum_register, 3, 2);
+    transform_quantum_register(&mut quantum_register, 3, 16);
     print_quantum_register(&quantum_register);
 
     println!();

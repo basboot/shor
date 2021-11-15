@@ -36,7 +36,7 @@ pub fn transform_quantum_register(register: &mut Array2::<Complex<f64>>, a:u64, 
     let n_state_vectors_reg1 = 2_u32.pow(N_BITS_REG1 as u32);
     for i in 0..n_state_vectors_reg1 {
         // perform computation
-        let result = modular_pow(i as u64, a, n);
+        let result = modular_pow(a, i as u64, n);
         // combine input and result
         let input_register = (i as usize) << N_BITS_REG2;
         let output_register = input_register | result as usize;
@@ -78,7 +78,7 @@ pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:
         total_chance += chance;
 
         // randomly selected vector found => break
-        if total_chance >= random_chance {
+        if total_chance > random_chance {
             selected_vector = i;
             println!("Selected vector for measurement {} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
             break;
