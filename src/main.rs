@@ -6,6 +6,7 @@ mod gcd;
 mod find_first_d;
 mod jacobi_symbol;
 mod quantum_register;
+mod fourier;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
@@ -16,6 +17,7 @@ use jacobi_symbol::jacobi_symbol;
 
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
                        transform_quantum_register, measure_quantum_register1, measure_quantum_register2};
+use crate::fourier::{create_qft};
 
 
 fn main() {
@@ -77,4 +79,6 @@ fn main() {
     println!("Measure the second register (step 7)");
     measure_quantum_register2(&mut quantum_register);
     print_quantum_register(&quantum_register);
+
+    let qft = create_qft(16);
 }
