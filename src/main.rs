@@ -18,6 +18,7 @@ use jacobi_symbol::jacobi_symbol;
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
                        transform_quantum_register, measure_quantum_register1, measure_quantum_register2};
 use crate::fourier::{create_qft};
+use crate::quantum_register::extract_quantum_register1;
 
 
 fn main() {
@@ -83,4 +84,10 @@ fn main() {
     print_quantum_register(&quantum_register);
 
     let qft = create_qft(16);
+
+    let reg1 = extract_quantum_register1(&mut quantum_register);
+
+    println!("reg1: {}", reg1);
+
+    println!("qft * reg1 = {}", qft.dot(&reg1));
 }
