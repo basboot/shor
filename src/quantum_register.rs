@@ -137,3 +137,16 @@ pub fn extract_quantum_register1(register: &mut Array2::<Complex<f64>>) -> Array
     // return result
     partial_register
 }
+
+// extract vector representation of a register 1, under the assumption
+// register 2 has been measured
+pub fn insert_quantum_register1(partial_register: &Array2::<Complex<f64>>, register: &mut Array2::<Complex<f64>>) {
+
+    // register 2 has already been measured, measure again to know what reg 2 is to
+    // target values > 0
+    let reg2_value = measure_quantum_register2(register);
+
+    for i in 0..2_u32.pow(N_BITS_REG1 as u32) {
+        register[[(i << N_BITS_REG2 | (reg2_value as u32)) as usize, 0]] = partial_register[[i as usize, 0]];
+    }
+}
