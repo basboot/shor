@@ -77,7 +77,9 @@ fn main() {
     println!();
 
     println!("Measure the second register (step 7)");
-    measure_quantum_register2(&mut quantum_register);
+    println!("Measured: {}", measure_quantum_register2(&mut quantum_register));
+
+    println!("Second measurement (should be the same): {}", measure_quantum_register2(&mut quantum_register));
     print_quantum_register(&quantum_register);
 
     let qft = create_qft(16);

@@ -63,7 +63,7 @@ pub fn print_quantum_register(register: &Array2::<Complex<f64>>) {
 // meassure (a part of) the quantum register
 // from_bit: first bit to be measured (0 based, count from left, MSB)
 // to_bit: last bit to be measured (same as first bit if you want to measure only one bit, LSB)
-pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:usize, to_bit:usize) {
+pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:usize, to_bit:usize) -> usize {
     let lsb = N_BITS_REG1 + N_BITS_REG2 - to_bit - 1;
 
     // draw random number [0,1) to select a base vector from the register
@@ -106,15 +106,16 @@ pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:
     for i in 0..register.len() {
         register[[i, 0]] = register[[i, 0]] / remaining_chance.sqrt();
     }
+
+    selected_vector & (measured_bits_mask as usize) >> lsb
 }
 
-// TODO: waarom hoeft register hier niet al &mut doorgegeven te worden?
 // helper function to measure register 1
-pub fn measure_quantum_register1(register: &mut Array2::<Complex<f64>>) {
-    measure_quantum_register(register, 0, N_BITS_REG1 - 1);
+pub fn measure_quantum_register1(register: &mut Array2::<Complex<f64>>) -> usize {
+    measure_quantum_register(register, 0, N_BITS_REG1 - 1)
 }
 
 // helper function measure register 2
-pub fn measure_quantum_register2(register: &mut Array2::<Complex<f64>>) {
-    measure_quantum_register(register, N_BITS_REG1, N_BITS_REG1 + N_BITS_REG2 - 1);
+pub fn measure_quantum_register2(register: &mut Array2::<Complex<f64>>) -> usize {
+    measure_quantum_register(register, N_BITS_REG1, N_BITS_REG1 + N_BITS_REG2 - 1)
 }
