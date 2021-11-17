@@ -19,6 +19,7 @@ use jacobi_symbol::jacobi_symbol;
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
                        transform_quantum_register, measure_quantum_register1, measure_quantum_register2};
 use crate::fourier::{create_qft};
+use crate::gcd::gcd;
 use crate::log2::{log2flt, log2int};
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 
@@ -61,7 +62,12 @@ fn main() {
     println!();
 
     // Log2
-    println!("John: Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
+    println!("Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
+
+    // gcd
+    println!("GCD 17,37 = {}, GCD 768, 2048 = {}", gcd(17, 37), gcd(768, 2048));
+
+    println!();
 
     println!("Create quantum register (step 4) in zero state");
     let mut quantum_register = create_quantum_register();
