@@ -33,13 +33,13 @@ pub fn init_quantum_register(register: &mut Array2::<Complex<f64>>) {
 // step 6
 // simulate the quantum transformation x^a mod n to for each number stored in register 1
 // and store the result in register 2.
-pub fn transform_quantum_register(register: &mut Array2::<Complex<f64>>, a:u64, n:u64) {
+pub fn transform_quantum_register(register: &mut Array2::<Complex<f64>>, x:u64, n:u64) {
     let n_state_vectors_reg1 = 2_u32.pow(N_BITS_REG1 as u32);
-    for i in 0..n_state_vectors_reg1 {
+    for a in 0..n_state_vectors_reg1 {
         // perform computation
-        let result = modular_pow(a, i as u64, n);
+        let result = modular_pow(x, a as u64, n);
         // combine input and result
-        let input_register = (i as usize) << N_BITS_REG2;
+        let input_register = (a as usize) << N_BITS_REG2;
         let output_register = input_register | result as usize;
         // move value
         let input_register_value = register[[input_register, 0]];
