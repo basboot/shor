@@ -107,7 +107,7 @@ pub fn measure_quantum_register(register: &mut Array2::<Complex<f64>>, from_bit:
         register[[i, 0]] = register[[i, 0]] / remaining_chance.sqrt();
     }
 
-    selected_vector & (measured_bits_mask as usize) >> lsb
+    (selected_vector & (measured_bits_mask as usize)) >> lsb
 }
 
 // helper function to measure register 1
