@@ -7,6 +7,7 @@ mod find_first_d;
 mod jacobi_symbol;
 mod quantum_register;
 mod fourier;
+mod log2;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
@@ -18,6 +19,7 @@ use jacobi_symbol::jacobi_symbol;
 use quantum_register::{create_quantum_register, init_quantum_register, print_quantum_register,
                        transform_quantum_register, measure_quantum_register1, measure_quantum_register2};
 use crate::fourier::{create_qft};
+use crate::log2::{log2flt, log2int};
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 
 
@@ -57,6 +59,9 @@ fn main() {
 
     println!();
     println!();
+
+    // Log2
+    println!("John: Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
 
     println!("Create quantum register (step 4) in zero state");
     let mut quantum_register = create_quantum_register();
