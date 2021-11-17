@@ -1,5 +1,5 @@
 
-const N_BITS_REG1:usize = 4; // size of register 1, must have enough qubits to represent q - 1
+pub(crate) const N_BITS_REG1:usize = 4; // size of register 1, must have enough qubits to represent q - 1
 const N_BITS_REG2:usize = 4; // size of register 2, must have enough qubits to represent n - 1
 const EPSILON: f64 = 0_f64;
 
@@ -127,23 +127,22 @@ pub fn extract_quantum_register1(register: &mut Array2::<Complex<f64>>) -> Array
     let mut partial_register = Array2::<Complex<f64>>::zeros((2_usize.pow((N_BITS_REG1) as u32), 1));
 
     // register 2 has already been measured, measure again to know what reg 2 is to
-    // target values > 0
+    // target correct location of reg 1 values
     let reg2_value = measure_quantum_register2(register);
 
     for i in 0..2_u32.pow(N_BITS_REG1 as u32) {
         partial_register[[i as usize, 0]] =  register[[(i << N_BITS_REG2 | (reg2_value as u32)) as usize, 0]];
     }
 
-    // return result
+    // return result (reg1)
     partial_register
 }
 
-// extract vector representation of a register 1, under the assumption
+// insert vector representation of register 1 into full register, under the assumption
 // register 2 has been measured
 pub fn insert_quantum_register1(partial_register: &Array2::<Complex<f64>>, register: &mut Array2::<Complex<f64>>) {
-
     // register 2 has already been measured, measure again to know what reg 2 is to
-    // target values > 0
+    // target correct location of reg 1 values
     let reg2_value = measure_quantum_register2(register);
 
     for i in 0..2_u32.pow(N_BITS_REG1 as u32) {

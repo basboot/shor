@@ -1,7 +1,6 @@
 use ndarray::Array2;
 use num::Complex;
 use std::f64::consts::PI;
-use num::integer::Roots;
 
 fn create_omegas(n: u32) -> Array2::<Complex<f64>> {
     let mut omegas = Array2::<Complex<f64>>::zeros((n as usize, 1));
@@ -17,10 +16,6 @@ fn create_omegas(n: u32) -> Array2::<Complex<f64>> {
     for i in 1..n {
         omegas[[i as usize, 0]] = omegas[[(i-1) as usize, 0]] * omega;
     }
-
-    println!("omegas = {}", omegas);
-
-    println!("check 1 == {}", omegas[[(n-1) as usize,0]] * omega);
 
     omegas
 }

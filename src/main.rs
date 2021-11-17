@@ -79,23 +79,21 @@ fn main() {
 
     println!("Measure the second register (step 7)");
     println!("Measured: {}", measure_quantum_register2(&mut quantum_register));
-
-    println!("Second measurement (should be the same): {}", measure_quantum_register2(&mut quantum_register));
     print_quantum_register(&quantum_register);
 
-    let qft = create_qft(16);
-
+    println!("Perform qft on register 1 (step 8)");
+    let qft = create_qft(2_u32.pow(quantum_register::N_BITS_REG1 as u32));
     let mut reg1 = extract_quantum_register1(&mut quantum_register);
-
-    println!("reg1: {}", reg1);
-    let reg1 = qft.dot(&reg1);
+    reg1 = qft.dot(&reg1);
 
     insert_quantum_register1(&reg1, &mut quantum_register);
 
+    print_quantum_register(&quantum_register);
+
+    println!("Measure register 1 (step 9)");
     let result = measure_quantum_register1(&mut quantum_register);
 
     print_quantum_register(&quantum_register);
-
     println!("Result: {}", result);
 
 }
