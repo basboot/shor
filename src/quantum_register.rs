@@ -1,7 +1,8 @@
 
 pub(crate) const N_BITS_REG1:usize = 4; // size of register 1, must have enough qubits to represent q - 1
-const N_BITS_REG2:usize = 4; // size of register 2, must have enough qubits to represent n - 1
+const N_BITS_REG2:usize = 4;            // size of register 2, must have enough qubits to represent n - 1
 const EPSILON: f64 = 0_f64;
+const MAX_PRINT: usize = 10;            // max lines to print before hiding results
 
 use ndarray::Array2;
 use num::complex::Complex;
@@ -49,12 +50,27 @@ pub fn transform_quantum_register(register: &mut Array2::<Complex<f64>>, a:u64, 
 
 // show values for all base vectors of the quantum register, and split them into reg1 and reg2
 pub fn print_quantum_register(register: &Array2::<Complex<f64>>) {
+    let mut print_results = Vec::new();
     println!("reg1 - reg2 (value)");
+    // format results
     for i in 0..register.len() {
         // only show register values of base vectors with a minimum (square root) probability
         if register[[i, 0]].norm() > EPSILON {
             // split base vector to show reg1 and reg2 separately
-            println!("{} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
+            // println!("{} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
+            print_results.push(format!("{} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]))
+        }
+    }
+    // print results
+    let mut dots_printed = false;
+    for i in 0..print_results.len() {
+        if (i < MAX_PRINT) || (i > print_results.len() - MAX_PRINT - 1) {
+            println!("{}", print_results[i]);
+        } else {
+            if !dots_printed {
+                println!("...");
+                dots_printed = true;
+            }
         }
     }
 }
