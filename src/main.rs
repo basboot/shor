@@ -8,6 +8,7 @@ mod jacobi_symbol;
 mod quantum_register;
 mod fourier;
 mod log2;
+mod lucas;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
@@ -21,6 +22,7 @@ use quantum_register::{create_quantum_register, init_quantum_register, print_qua
 use crate::fourier::{create_qft};
 use crate::gcd::gcd;
 use crate::log2::{log2flt, log2int};
+use crate::lucas::U;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 
 
@@ -60,6 +62,9 @@ fn main() {
 
     println!();
     println!();
+
+    // Lucas
+    println!("Lucas: U(20, 19, 3, -1) = {}", U(20, 19, 3, -1));
 
     // Log2
     println!("Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
