@@ -48,19 +48,19 @@ fn my_mod(x: i64, n: i64) -> i64 {
 }
 
 
-pub fn U(k: u64, n: i64, P: i64, Q: i64) -> i64 {
+pub fn u_k(k: u64, n: i64, p: i64, q: i64) -> i64 {
 
-    let D = P*P-4*Q;
+    let d = p * p -4* q; // TODO: why is d unused?
     if k == 1 {
         return 1;
     } else if k % 2 == 0 {
         let k2 = k / 2;
-        let mut val = U(k2, n, P, Q) * V(k2, n, P, Q);
+        let mut val = u_k(k2, n, p, q) * v_k(k2, n, p, q);
         val = my_mod(val, n);
         return val;
     } else {
         let k2 = k - 1;
-        let mut val = P * U(k2, n, P, Q) + V(k2, n, P, Q);
+        let mut val = p * u_k(k2, n, p, q) + v_k(k2, n, p, q);
         if val % 2 == 1 {
             val += n ;
         }
@@ -70,16 +70,16 @@ pub fn U(k: u64, n: i64, P: i64, Q: i64) -> i64 {
     }
 }
 
-pub fn V(k: u64, n: i64, P: i64, Q: i64) -> i64 {
+pub fn v_k(k: u64, n: i64, p: i64, q: i64) -> i64 {
 
-    let D = P*P-4*Q;
+    let d = p * p -4* q;
     if k == 1 {
-        return P;
+        return p;
     } else if k % 2 == 0 {
         let k2 = k / 2;
-        let tmpvk = V(k2, n, P, Q);
-        let tmpuk = U(k2, n, P, Q);
-        let mut val = tmpvk * tmpvk + D * tmpuk * tmpuk;
+        let tmpvk = v_k(k2, n, p, q);
+        let tmpuk = u_k(k2, n, p, q);
+        let mut val = tmpvk * tmpvk + d * tmpuk * tmpuk;
          if val % 2 == 1 {
             val += n ;
         }
@@ -87,7 +87,7 @@ pub fn V(k: u64, n: i64, P: i64, Q: i64) -> i64 {
         return my_mod(val,n);
     } else {
         let k2 = k - 1;
-        let mut val = D * U(k2, n, P, Q) + P * V(k2, n, P, Q);
+        let mut val = d * u_k(k2, n, p, q) + p * v_k(k2, n, p, q);
         if val % 2 == 1 {
             val += n ;
         }
@@ -117,17 +117,17 @@ mod tests {
     
     #[test]
     fn lucastest_prime() {
-        assert_eq!(U(20, 19, 3, -1), 0);
+        assert_eq!(u_k(20, 19, 3, -1), 0);
     }
 
     #[test]
     fn lucastest_pseudo_prime() {
-        assert_eq!(U(120, 119, 3, -1), 0);
+        assert_eq!(u_k(120, 119, 3, -1), 0);
     }
 
     #[test]
     fn lucastest_composite() {
-        assert!(U(222, 221, 3, -1) != 0);
+        assert!(u_k(222, 221, 3, -1) != 0);
     }
     
 }
