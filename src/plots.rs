@@ -3,13 +3,13 @@ use num::Complex;
 
 use plotters::prelude::*;
 
-pub fn plot_probabilities_register1(partial_register: &Array2::<Complex<f64>>, description: String) {
+pub fn plot_probabilities_register1(partial_register: &Vec<Complex<f64>>, description: String) {
     let mut probabilities = Vec::new();
     let mut max_pct = 0;
 
     // calculate all probabilities
     for i in 0..partial_register.len() {
-        let p = partial_register[[i as usize, 0]].norm() * partial_register[[i as usize, 0]].norm();
+        let p = partial_register[i as usize].norm() * partial_register[i as usize].norm();
         let pct = (p * 100.0).round() as i32;
         probabilities.push(pct);
         if pct > max_pct {

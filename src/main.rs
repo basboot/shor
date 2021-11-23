@@ -13,6 +13,8 @@ mod baillie_psw_prime;
 mod prime_power_check;
 mod plots;
 
+
+
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
@@ -29,13 +31,13 @@ use crate::lucas::u_k;
 use crate::plots::plot_probabilities_register1;
 use crate::prime_power_check::prime_power_check;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
-
+use rustfft::{FftPlanner, num_complex::Complex};
 
 fn main() {
     println!("Hello, Shor!");
 
     // Choose n to factorize
-    for n in [15_u64, 35_u64, 69_u64] {
+    for n in [221_u64] {
         println!("n = {}", n);
 
         // Step 1
@@ -83,9 +85,12 @@ fn main() {
                     print_quantum_register(&quantum_register);
 
                     println!("Perform qft on register 1 (step 8)");
-                    let qft = create_qft(2_u32.pow(quantum_register.n_bits_reg1 as u32));
+
                     let mut reg1 = extract_quantum_register1(&mut quantum_register);
-                    reg1 = qft.dot(&reg1);
+
+                    let mut planner = FftPlanner::new();
+                    let fft = planner.plan_fft_forward(reg1.len());
+                    fft.process(&mut reg1);
 
                     insert_quantum_register1(&reg1, &mut quantum_register);
 
