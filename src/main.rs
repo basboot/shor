@@ -46,6 +46,15 @@ fn main() {
 
         println!("q = {}", q);
 
+        // Step 3
+        // Pick a random integer x that is coprime to n.
+        for x in [2_u64, 3_u64] {
+            if gcd(x, n) == 1 {
+                // continue
+            } else {
+                println!("x = {}, not coprime to {}, skipped", x, n);
+            }
+        }
     } else {
         println!("n= {}, skipped", n);
     }
