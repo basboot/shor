@@ -10,6 +10,7 @@ mod fourier;
 mod log2;
 mod lucas;
 mod baillie_psw_prime;
+mod prime_power_check;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
@@ -24,6 +25,7 @@ use crate::fourier::{create_qft};
 use crate::gcd::gcd;
 use crate::log2::{log2flt, log2int};
 use crate::lucas::u_k;
+use crate::prime_power_check::prime_power_check;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 
 
@@ -43,6 +45,8 @@ fn main() {
     } else {
         println!("{} is prime (so not a possible candidate)", candidate);
     }
+
+    println!("4093_5, {}", prime_power_check(1148705560180903693));
 
     //
     // // Log2
