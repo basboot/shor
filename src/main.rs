@@ -35,7 +35,7 @@ fn main() {
     println!("Hello, Shor!");
 
     // Choose n to factorize
-    for n in [15_u64, 35_u64] {
+    for n in [15_u64, 35_u64, 69_u64] {
         println!("n = {}", n);
 
         // Step 1
