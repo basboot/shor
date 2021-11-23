@@ -11,6 +11,7 @@ mod log2;
 mod lucas;
 mod baillie_psw_prime;
 mod prime_power_check;
+mod plots;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
@@ -25,6 +26,7 @@ use crate::fourier::{create_qft};
 use crate::gcd::gcd;
 use crate::log2::{log2flt, log2int};
 use crate::lucas::u_k;
+use crate::plots::plot_probabilities_register1;
 use crate::prime_power_check::prime_power_check;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 
@@ -47,7 +49,7 @@ fn main() {
 
             // Step 3
             // Pick a random integer x that is coprime to n.
-            for x in [2_u64, 3_u64] {
+            for x in [2_u64, 3_u64, 5_u64, 7_u64, 11_u64, 13_u64] {
                 if gcd(x, n) == 1 {
                     // Select minimum register size
                     // Register 1 must have enough qubits to represent integers as large as q - 1.
@@ -88,6 +90,9 @@ fn main() {
                     insert_quantum_register1(&reg1, &mut quantum_register);
 
                     print_quantum_register(&quantum_register);
+
+                    // plot before destroying
+                    plot_probabilities_register1(&reg1, format!("n_{}_q_{}_x_{}", n, q, x));
 
                     println!("Measure register 1 (step 9)");
                     let result = measure_quantum_register1(&mut quantum_register);
