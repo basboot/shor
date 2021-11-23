@@ -35,59 +35,66 @@ fn main() {
     // Choose n to factorize
     let n: u64 = 15;
 
+    println!("n = {}", n);
+
     // Step 1
     // Only continue if n is not even, not prime and not a power of a prime
     if !is_even(n) && !baillie_psw_prime(n) && !prime_power_check(n) {
+        // Step 2
+        // Pick a integer q that is the power of 2 such that n^2 <= q < 2n^2
+        let q = 2_u64.pow(((log2flt((2 * n * n) as f64) - 1.0).ceil()) as u32);
+
+        println!("q = {}", q);
 
     } else {
         println!("n= {}, skipped", n);
     }
 
 
-    // Log2
-    println!("Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
-
-    // gcd
-    println!("GCD 17,37 = {}, GCD 768, 2048 = {}", gcd(17, 37), gcd(768, 2048));
-
-    println!();
-
-    println!("Create quantum register (step 4) in zero state");
-    let mut quantum_register = create_quantum_register(4, 4);
-    print_quantum_register(&quantum_register);
-
-    println!();
-
-    println!("Init quantum register for Shor (step 5)");
-    init_quantum_register(&mut quantum_register);
-
-    print_quantum_register(&quantum_register);
-
-    println!();
-
-    println!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
-    transform_quantum_register(&mut quantum_register, 3, 16);
-    print_quantum_register(&quantum_register);
-
-    println!();
-
-    println!("Measure the second register (step 7)");
-    println!("Measured: {}", measure_quantum_register2(&mut quantum_register));
-    print_quantum_register(&quantum_register);
-
-    println!("Perform qft on register 1 (step 8)");
-    let qft = create_qft(2_u32.pow(quantum_register.n_bits_reg1 as u32));
-    let mut reg1 = extract_quantum_register1(&mut quantum_register);
-    reg1 = qft.dot(&reg1);
-
-    insert_quantum_register1(&reg1, &mut quantum_register);
-
-    print_quantum_register(&quantum_register);
-
-    println!("Measure register 1 (step 9)");
-    let result = measure_quantum_register1(&mut quantum_register);
-
-    print_quantum_register(&quantum_register);
-    println!("Result: {}", result);
+    // // Log2
+    // println!("Log2(256) = {}, log2(sqrt(8)) = {}", log2int(256), log2flt(8_f64.sqrt()));
+    //
+    // // gcd
+    // println!("GCD 17,37 = {}, GCD 768, 2048 = {}", gcd(17, 37), gcd(768, 2048));
+    //
+    // println!();
+    //
+    // println!("Create quantum register (step 4) in zero state");
+    // let mut quantum_register = create_quantum_register(4, 4);
+    // print_quantum_register(&quantum_register);
+    //
+    // println!();
+    //
+    // println!("Init quantum register for Shor (step 5)");
+    // init_quantum_register(&mut quantum_register);
+    //
+    // print_quantum_register(&quantum_register);
+    //
+    // println!();
+    //
+    // println!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
+    // transform_quantum_register(&mut quantum_register, 3, 16);
+    // print_quantum_register(&quantum_register);
+    //
+    // println!();
+    //
+    // println!("Measure the second register (step 7)");
+    // println!("Measured: {}", measure_quantum_register2(&mut quantum_register));
+    // print_quantum_register(&quantum_register);
+    //
+    // println!("Perform qft on register 1 (step 8)");
+    // let qft = create_qft(2_u32.pow(quantum_register.n_bits_reg1 as u32));
+    // let mut reg1 = extract_quantum_register1(&mut quantum_register);
+    // reg1 = qft.dot(&reg1);
+    //
+    // insert_quantum_register1(&reg1, &mut quantum_register);
+    //
+    // print_quantum_register(&quantum_register);
+    //
+    // println!("Measure register 1 (step 9)");
+    // let result = measure_quantum_register1(&mut quantum_register);
+    //
+    // print_quantum_register(&quantum_register);
+    // println!("Result: {}", result);
 
 }
