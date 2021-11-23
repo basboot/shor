@@ -32,21 +32,16 @@ use crate::quantum_register::{extract_quantum_register1, insert_quantum_register
 fn main() {
     println!("Hello, Shor!");
 
-    let candidate: u64 = 4681;
+    // Choose n to factorize
+    let n: u64 = 15;
 
-    if !is_even(candidate) {
-        println!("{} is not even (possible candidate)", candidate);
+    // Step 1
+    // Only continue if n is not even, not prime and not a power of a prime
+    if !is_even(n) && !baillie_psw_prime(n) && !prime_power_check(n) {
+
     } else {
-        println!("{} is even (so not a possible candidate)", candidate);
+        println!("n= {}, skipped", n);
     }
-
-    if !baillie_psw_prime(candidate) {
-        println!("{} is not prime (possible candidate)", candidate);
-    } else {
-        println!("{} is prime (so not a possible candidate)", candidate);
-    }
-
-    println!("4093_5, {}", prime_power_check(1148705560180903693));
 
     //
     // // Log2
