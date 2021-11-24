@@ -13,8 +13,6 @@ mod baillie_psw_prime;
 mod prime_power_check;
 mod plots;
 
-
-
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
@@ -37,7 +35,7 @@ fn main() {
     println!("Hello, Shor!");
 
     // Choose n to factorize
-    for n in [221_u64] {
+    for n in [15_u64, 35_u64, 69_u64, 221_u64] {
         println!("n = {}", n);
 
         // Step 1
@@ -91,6 +89,21 @@ fn main() {
                     let mut planner = FftPlanner::new();
                     let fft = planner.plan_fft_forward(reg1.len());
                     fft.process(&mut reg1);
+
+                    // re-normalize (needed for rustfft: https://docs.rs/rustfft/6.0.1/rustfft/)
+                    // TODO: check for correctness
+                    // TODO: can we vectorize this?
+                    let mut total_chance = 0.0;
+                    for i in 0..reg1.len() {
+                        total_chance += reg1[i].norm() * reg1[i].norm();
+                    }
+
+                    let nrm_factor = total_chance.sqrt();
+
+                    for i in 0..reg1.len() {
+                        reg1[i] = reg1[i] / nrm_factor;
+                    }
+
 
                     insert_quantum_register1(&reg1, &mut quantum_register);
 
