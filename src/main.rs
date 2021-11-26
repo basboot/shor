@@ -12,10 +12,12 @@ mod lucas;
 mod baillie_psw_prime;
 mod prime_power_check;
 mod plots;
+mod logger;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
+use log::{info, debug, warn};
 
 use find_first_d::find_first_d;
 
@@ -25,6 +27,7 @@ use crate::baillie_psw_prime::baillie_psw_prime;
 use crate::fourier::{create_qft};
 use crate::gcd::gcd;
 use crate::log2::{log2flt, log2int};
+use crate::logger::init_logger;
 use crate::lucas::u_k;
 use crate::plots::plot_probabilities_register1;
 use crate::prime_power_check::prime_power_check;
@@ -32,7 +35,7 @@ use crate::quantum_register::{extract_quantum_register1, insert_quantum_register
 
 
 fn main() {
-    println!("Hello, Shor!");
+    init_logger();
 
     // Choose n to factorize
     for n in [15_u64, 35_u64, 69_u64] {
@@ -57,32 +60,27 @@ fn main() {
                     let n_bits_reg1 = log2int(q);
                     let n_bits_reg2 = log2int(n);
 
-                    println!("Register size reg1 = {}, reg2 = {}", n_bits_reg1, n_bits_reg2);
+                    info!("Register size reg1 = {}, reg2 = {}", n_bits_reg1, n_bits_reg2);
 
-                    println!("Create quantum register (step 4) in zero state");
+                    info!("Create quantum register (step 4) in zero state");
                     let mut quantum_register = create_quantum_register(n_bits_reg1 as usize, n_bits_reg2 as usize);
-                    print_quantum_register(&quantum_register);
+                    // print_quantum_register(&quantum_register);
 
-                    println!();
-
-                    println!("Init quantum register for Shor (step 5)");
+                    info!("Init quantum register for Shor (step 5)");
                     init_quantum_register(&mut quantum_register);
 
                     print_quantum_register(&quantum_register);
 
-                    println!();
 
-                    println!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
+                    info!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
                     transform_quantum_register(&mut quantum_register, x, n);
                     print_quantum_register(&quantum_register);
 
-                    println!();
-
-                    println!("Measure the second register (step 7)");
-                    println!("Measured: {}", measure_quantum_register2(&mut quantum_register));
+                    info!("Measure the second register (step 7)");
+                    info!("Measured: {}", measure_quantum_register2(&mut quantum_register));
                     print_quantum_register(&quantum_register);
 
-                    println!("Perform qft on register 1 (step 8)");
+                    info!("Perform qft on register 1 (step 8)");
                     let qft = create_qft(2_u32.pow(quantum_register.n_bits_reg1 as u32));
                     let mut reg1 = extract_quantum_register1(&mut quantum_register);
                     reg1 = qft.dot(&reg1);
@@ -94,17 +92,17 @@ fn main() {
                     // plot before destroying
                     plot_probabilities_register1(&reg1, format!("n_{}_q_{}_x_{}", n, q, x));
 
-                    println!("Measure register 1 (step 9)");
+                    info!("Measure register 1 (step 9)");
                     let result = measure_quantum_register1(&mut quantum_register);
 
                     print_quantum_register(&quantum_register);
                     println!("Result: {}", result);
                 } else {
-                    println!("x = {}, not coprime to {}, skipped", x, n);
+                    warn!("x = {}, not coprime to {}, skipped", x, n);
                 }
             }
         } else {
-            println!("n= {} even, prime or a prime power, skipped", n);
+            warn!("n= {} even, prime or a prime power, skipped", n);
         }
     }
 }

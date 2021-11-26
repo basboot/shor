@@ -44,7 +44,4 @@ pub fn plot_probabilities_register1(partial_register: &Array2::<Complex<f64>>, d
         bar
     }))
         .unwrap();
-
-    println!("Done");
-
 }

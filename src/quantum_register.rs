@@ -1,5 +1,6 @@
 const EPSILON: f64 = 0_f64;
 const MAX_PRINT: usize = 10;            // max lines to print before hiding results
+use log::{debug};
 
 use ndarray::Array2;
 use num::complex::Complex;
@@ -103,7 +104,7 @@ pub fn measure_quantum_register(register: &mut QuantumRegister, from_bit:usize, 
         // randomly selected vector found => break
         if total_chance > random_chance {
             selected_vector = i;
-            println!("Selected vector for measurement {} - {} ({})", i >> register.n_bits_reg2, i as u32 & (2_u32.pow(register.n_bits_reg2 as u32) - 1), register.register[[i, 0]]);
+            debug!("Selected vector for measurement {} - {} ({})", i >> register.n_bits_reg2, i as u32 & (2_u32.pow(register.n_bits_reg2 as u32) - 1), register.register[[i, 0]]);
             break;
         }
     }

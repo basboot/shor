@@ -3,6 +3,7 @@
 
 
 use crate::{find_first_d, pseudo_prime, sieve_of_eratosthenes, u_k};
+use log::{debug};
 
 pub fn baillie_psw_prime(n: u64) -> bool {
     // Step 1
@@ -13,7 +14,7 @@ pub fn baillie_psw_prime(n: u64) -> bool {
 
     if primes.contains(&(n as usize)) {
         // number is prime
-        println!("{} is prime (sieve)", n);
+        debug!("{} is prime (sieve)", n);
         return true;
     }
 
@@ -25,7 +26,7 @@ pub fn baillie_psw_prime(n: u64) -> bool {
     // then n is composite; quit.
 
     if !pseudo_prime(n) {
-        println!("{} is not prime (fermat)", n);
+        debug!("{} is not prime (fermat)", n);
         return false;
     }
 
@@ -43,10 +44,10 @@ pub fn baillie_psw_prime(n: u64) -> bool {
     let result = u_k(n+1, (n) as i64, p, q); // TODO: klopt k?
 
     if result % (n as i64) == 0 {
-        println!("{} is prime (lucas)", n);
+        debug!("{} is prime (lucas)", n);
         return true;
     }
 
-    println!("{} is not prime (lucas, so it was a fermat pseudo prime)", n);
+    debug!("{} is not prime (lucas, so it was a fermat pseudo prime)", n);
     false
 }

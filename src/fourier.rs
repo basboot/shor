@@ -1,13 +1,14 @@
 use ndarray::Array2;
 use num::Complex;
 use std::f64::consts::PI;
+use log::{debug};
 
 fn create_omegas(n: u32) -> Array2::<Complex<f64>> {
     let mut omegas = Array2::<Complex<f64>>::zeros((n as usize, 1));
 
     let omega = Complex::new(0.0, 2.0*PI/(n as f64)).exp();
 
-    println!("omega = {}", omega);
+    debug!("omega = {}", omega);
 
     // omega^0 = 1
     omegas[[0, 0]] = Complex::new(1.0, 0.0);
@@ -31,7 +32,7 @@ pub fn create_qft(n: u32) -> Array2::<Complex<f64>> {
         }
     }
 
-    println!("1/sqrt(n) * {}", qft);
+    debug!("1/sqrt(n) * {}", qft);
 
     qft * (1.0/(n as f64).sqrt())
 }
