@@ -44,7 +44,4 @@ pub fn plot_probabilities_register1(partial_register: &Vec<Complex<f64>>, descri
         bar
     }))
         .unwrap();
-
-    println!("Done");
-
 }

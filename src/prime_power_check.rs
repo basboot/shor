@@ -1,4 +1,5 @@
 use crate::baillie_psw_prime;
+use log::{debug};
 
 const MAX_ROOT: u32 = 100; // maximum root to try
 const EPSILON:f64 = 0.01_f64;  // maximum rounding error
@@ -10,34 +11,34 @@ pub fn prime_power_check(n: u64) -> bool {
         // take root
         let result = (n as f64).powf(1_f64/(current_root as f64));
 
-        println!("Prime power: ---------------------------------------");
-        println!("{} => {}", current_root, result);
+        debug!("Prime power: ---------------------------------------");
+        debug!("{} => {}", current_root, result);
 
         // stop if it is not possible to find a valid integer result anymore
         // TODO: because we have already excluded even numbers, this can be raised to 3
         if result < (2_f64 - EPSILON) {
-            println!("Result {} is too small, abort", result);
+            debug!("Result {} is too small, abort", result);
             break;
         }
 
         // is result an integer?
         if (result - result.round()).abs() <= EPSILON {
-            println!("Result {} is an integer", result);
+            debug!("Result {} is an integer", result);
             let result = result.round() as u64;
-            println!("Result {} as integer", result);
+            debug!("Result {} as integer", result);
 
             // check if rounded result is valid
             if result.pow(current_root) == n {
-                println!("Rounded result is valid");
+                debug!("Rounded result is valid");
                 // check if result is prime
                 if baillie_psw_prime(result) {
-                    println!("{} is a prime power, because {}^{}={}", n, result, current_root, n);
+                    debug!("{} is a prime power, because {}^{}={}", n, result, current_root, n);
                     return true;
                 } else {
-                    println!("{} is not prime, so continue", result);
+                    debug!("{} is not prime, so continue", result);
                 }
             } else {
-                println!("Rounded result is invalid, because {}^{}={}, not {}", result, current_root, result.pow(current_root), n);
+                debug!("Rounded result is invalid, because {}^{}={}, not {}", result, current_root, result.pow(current_root), n);
             }
         }
 
@@ -45,12 +46,12 @@ pub fn prime_power_check(n: u64) -> bool {
         current_root += 1;
         // possibly abort
         if current_root > MAX_ROOT {
-            println!("Prime power check aborted (MAX_ROOT reached)");
+            debug!("Prime power check aborted (MAX_ROOT reached)");
             break;
         }
     }
 
-    println!("{} is not a prime power", n);
+    debug!("{} is not a prime power", n);
     false
 }
 
