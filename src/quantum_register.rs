@@ -57,26 +57,38 @@ pub fn transform_quantum_register(register: &mut QuantumRegister, x:u64, n:u64) 
 }
 
 // show values for all base vectors of the quantum register, and split them into reg1 and reg2
-pub fn print_quantum_register(register: &QuantumRegister) {
+pub fn print_quantum_register(register: &QuantumRegister, debug:bool) {
     let mut print_results = Vec::new();
-    println!("reg1 - reg2 (value)");
     // format results
     for i in 0..register.register.len() {
         // only show register values of base vectors with a minimum (square root) probability
         if register.register[[i, 0]].norm() > EPSILON {
             // split base vector to show reg1 and reg2 separately
-            // println!("{} - {} ({})", i >> N_BITS_REG2, i as u32 & (2_u32.pow(N_BITS_REG2 as u32) - 1), register[[i, 0]]);
             print_results.push(format!("{} - {} ({})", i >> register.n_bits_reg2, i as u32 & (2_u32.pow(register.n_bits_reg2 as u32) - 1), register.register[[i, 0]]))
         }
     }
     // print results
+    if debug {
+        debug!("Quantum register (|value| > {}): reg1 - reg2 (value)", EPSILON);
+    } else {
+        println!("Quantum register (|value| > {}): reg1 - reg2 (value)", EPSILON);
+    }
+
     let mut dots_printed = false;
     for i in 0..print_results.len() {
         if (i < MAX_PRINT) || (i > print_results.len() - MAX_PRINT - 1) {
-            println!("{}", print_results[i]);
+            if debug {
+                debug!("{}", print_results[i]);
+            } else {
+                println!("{}", print_results[i]);
+            }
         } else {
             if !dots_printed {
-                println!("...");
+                if debug {
+                    debug!("...");
+                } else {
+                    println!("...");
+                }
                 dots_printed = true;
             }
         }

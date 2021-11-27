@@ -43,9 +43,11 @@ fn main() {
 
         // Step 1
         // Only continue if n is not even, not prime and not a power of a prime
+        info!("Determine if the number n is a prime, a even number, or an integer power of a prime number (step 1)");
         if !is_even(n) && !baillie_psw_prime(n) && !prime_power_check(n) {
             // Step 2
-            // Pick a integer q that is the power of 2 such that n^2 <= q < 2n^2
+            // Pick an integer q that is the power of 2 such that n^2 <= q < 2n^2
+            info!("Pick an integer q that is the power of 2 such that n^2 <= q < 2n^2 (step 2)");
             let q = 2_u64.pow(((log2flt((2 * n * n) as f64) - 1.0).ceil()) as u32);
 
             println!("q = {}", q);
@@ -53,6 +55,7 @@ fn main() {
             // Step 3
             // Pick a random integer x that is coprime to n.
             for x in [2_u64, 3_u64, 5_u64, 7_u64, 11_u64, 13_u64] {
+                info!("Pick a random integer x that is coprime to n (step 3)");
                 if gcd(x, n) == 1 {
                     // Select minimum register size
                     // Register 1 must have enough qubits to represent integers as large as q - 1.
@@ -62,23 +65,23 @@ fn main() {
 
                     info!("Register size reg1 = {}, reg2 = {}", n_bits_reg1, n_bits_reg2);
 
-                    info!("Create quantum register (step 4) in zero state");
+                    info!("Create quantum register in zero state (step 4).");
                     let mut quantum_register = create_quantum_register(n_bits_reg1 as usize, n_bits_reg2 as usize);
                     // print_quantum_register(&quantum_register);
 
                     info!("Init quantum register for Shor (step 5)");
                     init_quantum_register(&mut quantum_register);
 
-                    print_quantum_register(&quantum_register);
+                    print_quantum_register(&quantum_register, true);
 
 
                     info!("Apply the transformation x^a mod n to for each number stored in register 1 and store the result in register 2 (step 6)");
                     transform_quantum_register(&mut quantum_register, x, n);
-                    print_quantum_register(&quantum_register);
+                    print_quantum_register(&quantum_register, true);
 
                     info!("Measure the second register (step 7)");
                     info!("Measured: {}", measure_quantum_register2(&mut quantum_register));
-                    print_quantum_register(&quantum_register);
+                    print_quantum_register(&quantum_register, true);
 
                     info!("Perform qft on register 1 (step 8)");
                     let qft = create_qft(2_u32.pow(quantum_register.n_bits_reg1 as u32));
@@ -87,7 +90,7 @@ fn main() {
 
                     insert_quantum_register1(&reg1, &mut quantum_register);
 
-                    print_quantum_register(&quantum_register);
+                    print_quantum_register(&quantum_register, false);
 
                     // plot before destroying
                     plot_probabilities_register1(&reg1, format!("n_{}_q_{}_x_{}", n, q, x));
@@ -95,7 +98,7 @@ fn main() {
                     info!("Measure register 1 (step 9)");
                     let result = measure_quantum_register1(&mut quantum_register);
 
-                    print_quantum_register(&quantum_register);
+                    print_quantum_register(&quantum_register, true);
                     println!("Result: {}", result);
                 } else {
                     warn!("x = {}, not coprime to {}, skipped", x, n);
