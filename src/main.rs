@@ -35,12 +35,13 @@ use crate::plots::plot_probabilities_register1;
 use crate::prime_power_check::prime_power_check;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 use rustfft::{FftPlanner, num_complex::Complex};
+use crate::continued_fractions::{calculate_cf, evaluate_cf, print_cf};
 
 fn main() {
     init_logger();
 
     // Choose n to factorize
-    for n in [974069_u64] {
+    for n in [15_u64, 35_u64, 69_u64] {
         println!("n = {}", n);
 
         // Step 1
@@ -56,7 +57,7 @@ fn main() {
 
             // Step 3
             // Pick a random integer x that is coprime to n.
-            for x in [97_u64] {
+            for x in [2_u64, 3_u64, 5_u64, 7_u64, 11_u64, 13_u64] {
                 info!("Pick a random integer x that is coprime to n (step 3)");
                 if gcd(x, n) == 1 {
                     // Select minimum register size
@@ -117,10 +118,53 @@ fn main() {
                     plot_probabilities_register1(&reg1, format!("n_{}_q_{}_x_{}", n, q, x));
 
                     info!("Measure register 1 (step 9)");
-                    let result = measure_quantum_register1(&mut quantum_register);
+                    let m = measure_quantum_register1(&mut quantum_register);
 
                     print_quantum_register(&quantum_register, true);
-                    println!("Result: {}", result);
+                    println!("Result: m = {}", m);
+
+                    // if we are unlucky we measure m = 0
+                    if m == 0 {
+                        warn!("It is not possible to continue, because m is zero");
+                        break;
+                    }
+
+                    // Step 10
+                    // calculate r based on knowledge of m and q
+
+                    let fraction = (m as f64) / (q as f64);
+
+                    let cf = calculate_cf(fraction, 15);
+
+                    info!("Fraction: {} / {} = {}", m, q, fraction);
+                    print_cf(&cf);
+
+                    for depth in 0..cf.len() {
+                        info!("Depth to try: {}", depth);
+                        let (_n, mut r) = evaluate_cf(depth as i64, &cf);
+
+                        if !is_even(r) {
+                            debug!("r = {}, try doubling", r);
+                            r = r * 2;
+                        }
+
+                        if r > q {
+                            debug!("doubling makes r larger than q, so skip")
+                        } else {
+                            // verder
+                            info!("r = {}", r);
+
+                            let x_r = modular_pow(x, r / 2, n);
+
+                            debug!("x^r % N = {}", x_r);
+
+                            let gcd1 = gcd(x_r + 1, n);
+                            let gcd2 = gcd(x_r - 1, n);
+
+                            println!("factors found: {} and {}", gcd1, gcd2);
+                        }
+                    }
+
                 } else {
                     warn!("x = {}, not coprime to {}, skipped", x, n);
                 }
