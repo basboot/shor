@@ -9,7 +9,7 @@ pub fn calculate_cf(x: f64, depth: u8) -> ContinuedFraction {
     let mut rest = x - a as f64;
     vec.push(a);
 
-    while a != 0 && d < depth {
+    while d < depth {
         a = (1.0 / rest) as u64;
         if a > 1000000 {
             break;
@@ -109,6 +109,11 @@ mod tests {
     #[test]
     fn calculate_2() {
         assert_eq!(calculate_cf(1.001953125,2),vec![1u64,512]);
+    }
+
+    #[test]
+    fn calculate_3() {
+        assert_eq!(calculate_cf(0.5,4),vec![0,2]);
     }
     
     #[test]
