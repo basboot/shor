@@ -13,11 +13,13 @@ mod baillie_psw_prime;
 mod prime_power_check;
 mod plots;
 mod logger;
+mod continued_fraction;
 
 use sieve_of_eratosthenes::sieve_of_eratosthenes;
 use is_even::is_even;
 use pseudo_prime::pseudo_prime;
 use log::{info, debug, warn};
+use modular_pow::modular_pow;
 
 use find_first_d::find_first_d;
 
@@ -33,6 +35,7 @@ use crate::plots::plot_probabilities_register1;
 use crate::prime_power_check::prime_power_check;
 use crate::quantum_register::{extract_quantum_register1, insert_quantum_register1};
 use rustfft::{FftPlanner, num_complex::Complex};
+use crate::continued_fraction::cf_to_fraction;
 
 fn main() {
     init_logger();
