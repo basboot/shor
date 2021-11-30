@@ -38,7 +38,7 @@ fn main() {
     init_logger();
 
     // Choose n to factorize
-    for n in [15_u64, 35_u64, 69_u64, 221_u64] {
+    for n in [974069_u64] {
         println!("n = {}", n);
 
         // Step 1
@@ -54,7 +54,7 @@ fn main() {
 
             // Step 3
             // Pick a random integer x that is coprime to n.
-            for x in [2_u64, 3_u64, 5_u64, 7_u64, 11_u64, 13_u64] {
+            for x in [97_u64] {
                 info!("Pick a random integer x that is coprime to n (step 3)");
                 if gcd(x, n) == 1 {
                     // Select minimum register size
@@ -80,12 +80,13 @@ fn main() {
                     print_quantum_register(&quantum_register, true);
 
                     info!("Measure the second register (step 7)");
-                    info!("Measured: {}", measure_quantum_register2(&mut quantum_register));
+                    let reg2_value = measure_quantum_register2(&mut quantum_register);
+                    info!("Measured: {}", reg2_value);
                     print_quantum_register(&quantum_register, true);
 
                     info!("Perform qft on register 1 (step 8)");
 
-                    let mut reg1 = extract_quantum_register1(&mut quantum_register);
+                    let mut reg1 = extract_quantum_register1(&mut quantum_register, reg2_value);
 
                     let mut planner = FftPlanner::new();
                     let fft = planner.plan_fft_forward(reg1.len());
@@ -106,7 +107,7 @@ fn main() {
                     }
 
 
-                    insert_quantum_register1(&reg1, &mut quantum_register);
+                    insert_quantum_register1(&reg1, &mut quantum_register, reg2_value);
 
                     print_quantum_register(&quantum_register, false);
 

@@ -159,12 +159,8 @@ pub fn measure_quantum_register2(register: &mut QuantumRegister) -> usize {
 
 // extract vector representation of a register 1, under the assumption
 // register 2 has been measured
-pub fn extract_quantum_register1(register: &mut QuantumRegister) -> Vec<Complex<f64>> {
+pub fn extract_quantum_register1(register: &mut QuantumRegister, reg2_value:usize) -> Vec<Complex<f64>> {
     let mut partial_register = vec![Complex{ re: 0.0f64, im: 0.0f64 }; 2_u32.pow(register.n_bits_reg1 as u32) as usize];
-
-    // register 2 has already been measured, measure again to know what reg 2 is to
-    // target correct location of reg 1 values
-    let reg2_value = measure_quantum_register2(register);
 
     for i in 0..2_u32.pow(register.n_bits_reg1 as u32) {
         partial_register[i as usize] =  register.register[[(i << register.n_bits_reg2 | (reg2_value as u32)) as usize, 0]];
@@ -176,11 +172,7 @@ pub fn extract_quantum_register1(register: &mut QuantumRegister) -> Vec<Complex<
 
 // insert vector representation of register 1 into full register, under the assumption
 // register 2 has been measured
-pub fn insert_quantum_register1(partial_register: &Vec<Complex<f64>>, register: &mut QuantumRegister) {
-    // register 2 has already been measured, measure again to know what reg 2 is to
-    // target correct location of reg 1 values
-    let reg2_value = measure_quantum_register2(register);
-
+pub fn insert_quantum_register1(partial_register: &Vec<Complex<f64>>, register: &mut QuantumRegister, reg2_value:usize) {
     for i in 0..2_u32.pow(register.n_bits_reg1 as u32) {
         register.register[[(i << register.n_bits_reg2 | (reg2_value as u32)) as usize, 0]] = partial_register[i as usize];
     }
